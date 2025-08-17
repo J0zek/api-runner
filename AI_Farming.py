@@ -78,7 +78,9 @@ def run_loop(api_key_a, api_key_b, hermes_model, system_content, model, initial_
             user_content = call_api_a(api_key_a, hermes_model, system_content, user_content)
         else:
             user_content = call_api_b(api_key_b, model, user_content)
-
+            
+        print(user_content, \n\n)
+        
         if user_content is None:
             print("API call failed. Breaking the loop.")
             break
@@ -104,4 +106,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
