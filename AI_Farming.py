@@ -95,17 +95,17 @@ def main():
     hermes_model = os.environ.get("HERMES_MODEL")
     model = os.environ.get("MODEL")
 
-    while True:
-        start_text = pop_random_start("start_questions.txt")
-        if start_text is None:
-            print("start_questions.txt is empty")
-            break
+    start_text = pop_random_start("start_questions.txt")
+    if start_text is None:
+        print("start_questions.txt is empty")
+        break
 
-        run_loop(api_key_a, api_key_b, hermes_model, system_a, model, start_text)
+    run_loop(api_key_a, api_key_b, hermes_model, system_a, model, start_text)
 
 
 if __name__ == "__main__":
     main()
+
 
 
 
