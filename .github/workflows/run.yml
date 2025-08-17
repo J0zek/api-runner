@@ -29,5 +29,4 @@ jobs:
           SYSTEM_A: ${{ secrets.SYSTEM_A }}
           HERMES_MODEL: ${{ secrets.HERMES_MODEL }}
           MODEL: ${{ secrets.MODEL }}
-          USER_AGENT: ${{ secrets.USER_AGENT }}
         run: python main.py
