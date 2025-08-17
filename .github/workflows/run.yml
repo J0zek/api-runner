@@ -1,0 +1,33 @@
+name: Run Script
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  run-code:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run script
+        env:
+          API_KEY_A: ${{ secrets.API_KEY_A }}
+          API_KEY_B: ${{ secrets.API_KEY_B }}
+          SYSTEM_A: ${{ secrets.SYSTEM_A }}
+          HERMES_MODEL: ${{ secrets.HERMES_MODEL }}
+          MODEL: ${{ secrets.MODEL }}
+          USER_AGENT: ${{ secrets.USER_AGENT }}
+        run: python main.py
