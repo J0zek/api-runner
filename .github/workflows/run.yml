@@ -29,4 +29,4 @@ jobs:
           SYSTEM_A: ${{ secrets.SYSTEM_A }}
           HERMES_MODEL: ${{ secrets.HERMES_MODEL }}
           MODEL: ${{ secrets.MODEL }}
-        run: python main.py
+        run: python AI_Farming.py
