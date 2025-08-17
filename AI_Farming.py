@@ -4,7 +4,7 @@ import random
 import requests
 
 
-def call_api_a(api_key, hermes_model, system_content, user_content, user_agent=None):
+def call_api_a(api_key, hermes_model, system_content, user_content):
     url = "https://inference-api.nousresearch.com/v1/chat/completions"
     payload = {
         "model": f"{hermes_model}",
@@ -18,9 +18,7 @@ def call_api_a(api_key, hermes_model, system_content, user_content, user_agent=N
         "Authorization": f"Bearer {api_key}",
         "Content-Type": "application/json"
     }
-    if user_agent:
-        headers["User-Agent"] = user_agent
-
+    
     try:
         response = requests.post(url, json=payload, headers=headers, timeout=60)
         response.raise_for_status()
@@ -31,7 +29,7 @@ def call_api_a(api_key, hermes_model, system_content, user_content, user_agent=N
         return None
 
 
-def call_api_b(api_key, model, user_content, user_agent=None):
+def call_api_b(api_key, model, user_content):
     url = "https://openrouter.ai/api/v1/chat/completions"
     payload = {
         "model": f"@preset/{model}",
@@ -41,11 +39,9 @@ def call_api_b(api_key, model, user_content, user_agent=None):
         "Authorization": f"Bearer {api_key}",
         "Content-Type": "application/json"
     }
-    if user_agent:
-        headers["User-Agent"] = user_agent
 
     try:
-        response = requests.post(url, json=payload, headers=headers, proxies=proxies, timeout=60)
+        response = requests.post(url, json=payload, headers=headers, timeout=60)
         response.raise_for_status()
         parsed = response.json()
         return parsed["choices"][0]["message"]["content"].replace("\n", "")
@@ -66,7 +62,7 @@ def pop_random_start(path: str):
     return line
 
 
-def run_loop(api_key_a, api_key_b, hermes_model, system_content, model, initial_content, user_agent=None, max_steps=5):
+def run_loop(api_key_a, api_key_b, hermes_model, system_content, model, initial_content, max_steps=5):
     user_content = initial_content
     step = 0
 
@@ -79,9 +75,9 @@ def run_loop(api_key_a, api_key_b, hermes_model, system_content, model, initial_
         time.sleep(sleep_time)
 
         if step % 2 == 0:
-            user_content = call_api_a(api_key_a, hermes_model, system_content, user_content, user_agent)
+            user_content = call_api_a(api_key_a, hermes_model, system_content, user_content)
         else:
-            user_content = call_api_b(api_key_b, model, user_content, user_agent)
+            user_content = call_api_b(api_key_b, model, user_content)
 
         if user_content is None:
             print("API call failed. Breaking the loop.")
@@ -96,7 +92,6 @@ def main():
     system_a = os.environ.get("SYSTEM_A")
     hermes_model = os.environ.get("HERMES_MODEL")
     model = os.environ.get("MODEL")
-    user_agent = os.environ.get("USER_AGENT")
 
     while True:
         start_text = pop_random_start("start_questions.txt")
@@ -104,9 +99,9 @@ def main():
             print("start_questions.txt is empty")
             break
 
-        run_loop(api_key_a, api_key_b, hermes_model, system_a, model, start_text, user_agent, proxy)
+        run_loop(api_key_a, api_key_b, hermes_model, system_a, model, start_text)
 
 
 if __name__ == "__main__":
-
     main()
+
