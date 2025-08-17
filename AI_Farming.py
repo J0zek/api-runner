@@ -98,13 +98,14 @@ def main():
     start_text = pop_random_start("start_questions.txt")
     if start_text is None:
         print("start_questions.txt is empty")
-        break
+        return None
 
     run_loop(api_key_a, api_key_b, hermes_model, system_a, model, start_text)
 
 
 if __name__ == "__main__":
     main()
+
 
 
 
