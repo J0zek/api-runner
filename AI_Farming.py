@@ -62,7 +62,7 @@ def pop_random_start(path: str):
     return line
 
 
-def run_loop(api_key_a, api_key_b, hermes_model, system_content, model, initial_content, max_steps=5):
+def run_loop(api_key_a, api_key_b, hermes_model, system_content, model, initial_content, max_steps=10):
     user_content = initial_content
     step = 0
 
@@ -105,6 +105,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
