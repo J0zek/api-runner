@@ -62,13 +62,12 @@ def pop_random_start(path: str):
     return line
 
 
-def run_loop(api_key_a, api_key_b, hermes_model, system_content, model, initial_content, max_steps=30):
+def run_loop(api_key_a, api_key_b, hermes_model, system_content, model, initial_content, max_steps=300):
     user_content = initial_content
     step = 0
 
     while step < max_steps:
-        exit_prob = step / max_steps
-        if random.random() < exit_prob:
+        if random.randint(15, 300) < step:
             break
 
         sleep_time = random.randint(30, 120)
@@ -105,6 +104,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
